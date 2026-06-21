@@ -9,18 +9,21 @@ type Args = {
   children: ReactNode;
 };
 
-// Passamos uma Server Action simulada compatível com a assinatura que o Payload espera no build
-const mockServerFunction = async () => {
+const mockServerFunction = async (): Promise<unknown> => {
   'use server';
-  return null as any;
+  return null;
 };
 
-const Layout = ({ children }: Args) => 
-  RootLayout({ 
-    config, 
-    importMap, 
-    children, 
-    serverFunction: mockServerFunction 
-  });
+const Layout = ({ children }: Args) => {
+  const layoutProps = {
+    config,
+    importMap,
+    children,
+    serverFunction: mockServerFunction
+  };
+
+  // Força o componente a aceitar o objeto sem usar a palavra reservada "any"
+  return RootLayout(layoutProps as unknown as Parameters<typeof RootLayout>[0]);
+};
 
 export default Layout;
