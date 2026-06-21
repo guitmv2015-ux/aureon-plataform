@@ -1,18 +1,16 @@
-import config from "@payload-config";
+import React from 'react';
 import "@payloadcms/next/css";
 import { RootLayout } from "@payloadcms/next/layouts";
+// @ts-expect-error - Suprime o erro temporário de tipo antes do Payload injetar o mapa
 import { importMap } from "./admin/importMap";
 import type { ReactNode } from "react";
+import config from "@payload-config";
 
-/**
- * Layout isolado para o admin do Payload — não herda o layout institucional
- * (fontes/CSS do marketing site) para que o painel do CMS renderize com seu
- * próprio design system, como esperado pelo Payload.
- */
-const PayloadLayout = ({ children }: { children: ReactNode }) => (
-  <RootLayout config={config} importMap={importMap}>
-    {children}
-  </RootLayout>
-);
+type Args = {
+  children: ReactNode;
+};
 
-export default PayloadLayout;
+const Layout = ({ children }: Args) => 
+  RootLayout({ config, importMap, children });
+
+export default Layout;
