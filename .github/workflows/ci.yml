@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: aureon_ci
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/aureon_ci?schema=public"
+      SKIP_ENV_VALIDATION: "true"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+      PAYLOAD_SECRET: "ci-placeholder-secret-please-change"
+      AUTH_SECRET: "ci-placeholder-secret-please-change"
+      RESEND_API_KEY: "ci-placeholder"
+      RESEND_FROM_EMAIL: "ci@example.com"
+      SALES_NOTIFICATION_EMAIL: "ci@example.com"
+      STRIPE_SECRET_KEY: "sk_test_placeholder"
+      STRIPE_WEBHOOK_SECRET: "whsec_placeholder"
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "pk_test_placeholder"
+      UPLOADTHING_TOKEN: "ci-placeholder"
+      CRON_SECRET: "ci-placeholder-secret"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Gerar Prisma Client
+        run: npm run db:generate
+
+      - name: Aplicar schema no banco de CI
+        run: npm run db:push
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run type-check
+
+      - name: Build de produção
+        run: npm run build
