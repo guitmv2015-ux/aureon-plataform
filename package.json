@@ -23,7 +23,7 @@
     "db:studio": "prisma studio",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "payload:generate-types": "payload generate:types",
-    "payload:generate-importmap": "payload generate:importmap",
+    "payload:generate-importmap": "node -e \"fs.mkdirSync('src/app/(payload)/admin', { recursive: true }); fs.writeFileSync('src/app/(payload)/admin/importMap.js', '')\" && payload generate:importmap",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
     "postinstall": "prisma generate"
   },
