@@ -51,7 +51,7 @@ export async function updateUserRoleAction(userId: string, role: "CLIENT" | "ADV
   revalidatePath("/dashboard/configuracoes/equipe");
   return { success: true, message: "Papel atualizado com sucesso." };
 }
-  .object({
+ const passwordChangeSchema = z.object({
     currentPassword: z.string().min(1, "Informe sua senha atual."),
     newPassword: z
       .string()
@@ -59,6 +59,7 @@ export async function updateUserRoleAction(userId: string, role: "CLIENT" | "ADV
       .regex(/[A-Z]/, "A nova senha deve conter ao menos uma letra maiúscula.")
       .regex(/[0-9]/, "A nova senha deve conter ao menos um número."),
     confirmNewPassword: z.string(),
+
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
     message: "As senhas não coincidem.",
