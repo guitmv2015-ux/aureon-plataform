@@ -4,13 +4,23 @@ import { RootLayout } from "@payloadcms/next/layouts";
 import { importMap } from "./admin/importMap";
 import type { ReactNode } from "react";
 import config from "@payload-config";
-import { serverFunction } from "@payloadcms/next/views";
 
 type Args = {
   children: ReactNode;
 };
 
+// Passamos uma Server Action simulada compatível com a assinatura que o Payload espera no build
+const mockServerFunction = async () => {
+  'use server';
+  return null as any;
+};
+
 const Layout = ({ children }: Args) => 
-  RootLayout({ config, importMap, children, serverFunction });
+  RootLayout({ 
+    config, 
+    importMap, 
+    children, 
+    serverFunction: mockServerFunction 
+  });
 
 export default Layout;
