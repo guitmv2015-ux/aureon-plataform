@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import config from "@payload-config";
 import { generatePageMetadata, NotFoundPage } from "@payloadcms/next/views";
-// @ts-ignore
+// @ts-expect-error - Suprime o erro temporário de tipo antes do Payload injetar o mapa
 import { importMap } from "../importMap";
 
 type Args = {
