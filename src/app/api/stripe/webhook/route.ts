@@ -28,11 +28,12 @@ async function upsertSubscriptionFromStripe(subscription: Stripe.Subscription) {
   }
 
   const priceId = subscription.items.data[0]?.price.id ?? "";
-  // `current_period_end` existe tanto no nível da subscription (versões mais
-  // antigas da API) quanto no nível do item (versões mais recentes) — lemos
-  // dos dois lugares para não depender de uma versão fixa da API do Stripe.
+  
+  // `current_period_end` pertence ao objeto raiz da assinatura (Subscription).
+  // Usamos uma coerção limpa de tipo em runtime para caso de payloads antigos/customizados,
+  // evitando que o TypeScript barre a build do Next.js.
   const currentPeriodEndUnix =
-    subscription.items.data[0]?.current_period_end ??
+    subscription.current_period_end ??
     (subscription as unknown as { current_period_end?: number }).current_period_end ??
     subscription.start_date;
 
