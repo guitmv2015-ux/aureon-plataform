@@ -2,7 +2,7 @@
   "name": "aureon-partners-platform",
   "version": "1.0.0",
   "private": true,
-  "description": "Plataforma institucional Aureon Partners — Next.js 15 + Payload CMS + Prisma + Stripe",
+  "description": "Plataforma institutional Aureon Partners — Next.js 15 + Payload CMS + Prisma + Stripe",
   "engines": {
     "node": ">=20.9.0"
   },
@@ -23,7 +23,7 @@
     "db:studio": "prisma studio",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "payload:generate-types": "payload generate:types",
-    "payload:generate-importmap": "node -e \"fs.mkdirSync('src/app/(payload)/admin', { recursive: true }); fs.writeFileSync('src/app/(payload)/admin/importMap.ts', '')\" && payload generate:importmap",
+    "payload:generate-importmap": "node -e \"fs.mkdirSync('src/app/(payload)/admin', { recursive: true }); fs.writeFileSync('src/app/(payload)/admin/importMap.js', 'export const importMap = {};')\" && payload generate:importmap",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
     "postinstall": "prisma generate"
   },
