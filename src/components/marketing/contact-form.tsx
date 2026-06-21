@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link"; // Adicionado para corrigir o erro do ESLint
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -92,9 +93,9 @@ export function ContactForm() {
 
       <p className="text-xs text-slate-dim">
         Ao enviar, você concorda com nossa{" "}
-        <a href="/legal/privacidade" className="underline hover:text-brass">
+        <Link href="/legal/privacidade" className="underline hover:text-brass">
           Política de Privacidade
-        </a>
+        </Link>
         .
       </p>
     </form>
