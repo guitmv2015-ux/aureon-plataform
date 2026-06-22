@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "npm run payload:generate-importmap && next build",
-    "start": "next start",
+    "start": "prisma db push && next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
